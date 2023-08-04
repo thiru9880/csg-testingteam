@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="LM Regression Suite" parallel="classes" thread-count="3">
+<listeners>
+<listener class-name="safefleetLM.testcomponents.Listeners"></listener>
+
+</listeners>
+
+  <test name="RegressionTestParallel Execution">
+    <classes>
+      <class name="safefleetLM.TestRunners.LM_UI_Reg_Parallel01"/>
+      <class name="safefleetLM.TestRunners.LM_UI_Reg_Parallel02"/>
+      <class name="safefleetLM.TestRunners.LM_UI_Reg_Parallel03"/>
+
+    </classes>
+  </test> <!-- Test -->
+  
+   
+</suite> <!-- Suite -->

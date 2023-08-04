@@ -1,0 +1,18 @@
+package safefleetLM.TestRunners;
+
+import io.cucumber.testng.AbstractTestNGCucumberTests;
+import io.cucumber.testng.CucumberOptions;
+import org.testng.annotations.BeforeClass;
+
+import java.awt.*;
+
+
+@CucumberOptions(features = "src\\test\\java\\safefleetLM\\features\\UI",tags = "@prod1",glue = "safefleetLM/stepDefinitions/UI", monochrome = true,plugin = {"html:target/cucumber.html"})
+public class LM_UI_Prod_Parallel1 extends AbstractTestNGCucumberTests{
+	@BeforeClass
+	public void beforeCalss() throws AWTException {
+
+
+	}
+}
+
