@@ -183,7 +183,7 @@ public class BaseTest {
 				WebDriverManager.chromedriver().setup();
 				ChromeOptions opt = new ChromeOptions();
 				opt.addArguments("--remote-allow-origins=*");
-				opt.addArguments("--disable-dev-shm-usage");
+				// opt.addArguments("--disable-dev-shm-usage");
 				opt.addArguments("--headless");
 				opt.addArguments("--no-sandbox");
 				Map<String, Object> prefs = new HashMap<String, Object>();
