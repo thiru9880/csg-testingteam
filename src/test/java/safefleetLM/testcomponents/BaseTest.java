@@ -185,7 +185,7 @@ public class BaseTest {
 				opt.addArguments("--remote-allow-origins=*");
 				// opt.addArguments("--disable-dev-shm-usage");
 				opt.addArguments("--headless");
-				opt.addArguments("--no-sandbox");
+				// opt.addArguments("--no-sandbox");
 				Map<String, Object> prefs = new HashMap<String, Object>();
 				//prefs.put("download.default_content_setting_values.zoom_factor", 0.5);
 				prefs.put("download.default_directory", System.getProperty("user.dir") + File.separator + "Downloads");
