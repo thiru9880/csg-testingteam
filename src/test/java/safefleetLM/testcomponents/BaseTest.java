@@ -20,7 +20,6 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import io.cucumber.java.Scenario;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
@@ -133,7 +132,6 @@ public class BaseTest {
         safeFleetID_baseURI = "https://dev-id-manager-api-internal.safefleetcloud.com";
         //TestDataPath = "\\src\\test\\java\\testdata\\DEV\\TestData.xlsx";
         TestDataPath = File.separator + String.join(File.separator, "src", "test", "java", "testdata", "DEV", "TestData.xlsx");
-        //TestDataPath = File.separator + String.join(File.separator,"src", "test", "java", "testdata","API","testdata.xlsx");
 
 
       }//else if (prop.get("Environment").equals("STG")) {
@@ -189,7 +187,7 @@ public class BaseTest {
 				//prefs.put("download.default_content_setting_values.zoom_factor", 0.5);
 				prefs.put("download.default_directory", System.getProperty("user.dir") + File.separator + "Downloads");
 				opt.setExperimentalOption("prefs", prefs);
-        opt.addArguments("--headless");
+				opt.addArguments("--headless");
 				opt.addArguments("start-maximized");
 				opt.addArguments("force-device-scale-factor=1.0");
 
@@ -363,7 +361,7 @@ public class BaseTest {
 
 
 	/* Validate GetFleetByDevice Response */
-	/*public void validateGetFlletByDeviceResponse(Response response, Map<String, String> testData, String status) {
+	public void validateGetFlletByDeviceResponse(Response response, Map<String, String> testData, String status) {
 
 		String resString = response.then().extract().asPrettyString();
 		JsonPath js = new JsonPath(resString);
@@ -384,7 +382,7 @@ public class BaseTest {
 
 	}
 
-	*//* Validate ActivateLicenses Response *//*
+	/* Validate ActivateLicenses Response */
 	public void validateActivateLicensesResponse(Response response, Map<String, String> testData, String status) {
 
 		String resString = response.then().extract().asPrettyString();
@@ -397,7 +395,7 @@ public class BaseTest {
 
 	}
 
-	*//* Validate DeactivateLicenses Response *//*
+	/* Validate DeactivateLicenses Response */
 	public void validateDeactivateLicensesResponse(Response response, Map<String, String> testData, String status) {
 
 		String resString = response.then().extract().asPrettyString();
@@ -498,7 +496,7 @@ public class BaseTest {
 
 	}
 
-	*//* Validate GetAssignedLicense Response *//*
+	/* Validate GetAssignedLicense Response */
 	public void validateGetAssignedLicenseResponse(Response response, Map<String, String> testData, String status) {
 
 		String resString = response.then().extract().asPrettyString();
@@ -519,7 +517,7 @@ public class BaseTest {
 		}
 	}
 
-	*//* Validate DeviceTemplateAndSettings Response *//*
+	/* Validate DeviceTemplateAndSettings Response */
 	public void validateGetDeviceTemplateAndSettingsResponse(Response response, Map<String, String> testData,
 			String status) {
 
@@ -552,7 +550,7 @@ public class BaseTest {
 
 		}
 	}
-*/
+
 	//Random String Generator
 
 	public String randomStringGenerator() {
@@ -677,336 +675,6 @@ public class BaseTest {
 		return timestamp;
 	}
 
-  //-------------------------------------------------------------------------API methods -------------------------------------------
-  /*
-  public static String getTimeStamp() {
-    Locale locale = new Locale("en", "UK");
-    DateFormatSymbols dateFormatSymbols = new DateFormatSymbols(locale);
-    String pattern = "dd-MMM-HH_mm_ss";
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, dateFormatSymbols);
-
-    String timestamp = simpleDateFormat.format(new Date());
-    return timestamp;
-  }
-
-  // Extent Report Configurations
-  public static ExtentReports setUp() {
-    String fileName = "Run_" +getTimeStamp();
-    String reportLocation = System.getProperty("user.dir") + "\\AutomationReports\\"+fileName+".html";
-    report = new ExtentHtmlReporter(reportLocation);
-    report.config().setDocumentTitle("Automation Test Report");
-    report.config().setReportName("Automation Test Report");
-    report.config().setTheme(Theme.STANDARD);
-
-    System.out.println("Extent Report location initialized . . .");
-    //report.start();
-
-    extent = new ExtentReports();
-    extent.attachReporter(report);
-    extent.setSystemInfo("Application", "API Testing");
-    extent.setSystemInfo("Operating System", System.getProperty("os.name"));
-    extent.setSystemInfo("User Name", System.getProperty("user.name"));
-    extent.setSystemInfo("Envoronment", env);
-    extent.setSystemInfo("ENDPOINT", baseURI);
-
-    System.out.println("System Info. set in Extent Report");
-    return extent;
-  }
-
-
-
-  public void reportInfo(String msg) {
-    test.pass(msg);
-  }
-  public void reportPass(String title,String exp, String act) {
-    String message = "<b>" +"Expected " +  title+" : "+"</b>"  + "<font color=" + "green>" +exp + "</font>"+ "\t" + "<b>" + "Actual " +title+ " : "+"</b>"  + "<font color=" + "green>" +act+ "</font>";
-    test.pass(message);
-  }
-  public void reportFail(String title,String exp, String act) {
-    String message = "<b>" +"Expected " +  title+" : "+"</b>"  + "<font color=" + "red>" +exp + "</font>"+ "\t" + "<b>" + "Actual " +title+ " : "+"</b>"  + "<font color=" + "red>" +act+ "</font>";
-    test.fail(message);
-    softAssert.assertEquals(exp, act);
-  }
-
-  public void reportPayload(String msg) {
-    Markup m = MarkupHelper.createCodeBlock(msg, CodeLanguage.JSON);
-    test.info(m);
-  }
-  public void validateField(String title,String expected, String actual) {
-
-    if(expected.equals(actual))
-      reportPass(title,expected, actual);
-    else {
-      reportFail(title,expected, actual);
-
-    }
-
-  }
-
-   */
-  public void validateContent(String title,String expected, String actual) {
-
-    Boolean flag=true;
-    String[] actID=actual.substring(1,actual.length()-1).split(",");
-
-    for (String str  : actID) {
-      if(!expected.contains(str.trim()))
-        flag=false;
-    }
-    if(flag)
-      reportPass(title,expected, actual);
-    else
-      reportFail(title,expected, actual);
-
-  }
-  /*
-  public void validateNullValues(String title, String actual) {
-
-    if(actual==null)
-      reportPass(title, "null ", "null");
-    else
-      reportFail(title, "null ", "null");
-  }
-
-
-
-
-
-  private static String getcurrentdateandtime() {
-    String str = null;
-    try {
-      DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss:SSS");
-      Date date = new Date();
-      str = dateFormat.format(date);
-      str = str.replace(" ", "").replaceAll("/", "").replaceAll(":", "");
-    } catch (Exception e) {
-    }
-    return str;
-  }
-*/
-  public static void testStepHandle(String teststatus,ExtentTest extenttest,Throwable throwable) {
-    switch (teststatus) {
-      case "FAIL":
-        extenttest.fail(MarkupHelper.createLabel("Test Case is Failed : ", ExtentColor.RED));
-        //extenttest.error(throwable.fillInStackTrace());
-      case "PASS":
-        extenttest.pass(MarkupHelper.createLabel("Test Case is Passed : ", ExtentColor.GREEN));
-        break;
-
-      default:
-        break;
-    }
-  }
-
- /* *//* Method to generate customer json report *//*
-  public static void getCustomJsonReport() {
-    try {
-      BufferedReader reader = new BufferedReader(new FileReader(System.getProperty("user.dir") + File.separator + "target" + File.separator + "cucumber.json"));
-      String jsonString = reader.lines().collect(Collectors.joining());
-      reader.close();
-
-      JSONArray jsonArraySource = new JSONArray(jsonString);
-      JSONArray result = new JSONArray();
-      for(int i = 0; i < jsonArraySource.length(); i++) {
-        JSONObject jsonObject = jsonArraySource.getJSONObject(i);
-        JSONArray elementsArray = jsonObject.getJSONArray("elements");
-        for (int k=0;k< elementsArray.length();k++) {
-          String name = jsonObject.getJSONArray("elements").getJSONObject(k).getString("name");
-          String status = jsonObject.getJSONArray("elements").getJSONObject(k).getJSONArray("after").getJSONObject(0).getJSONObject("result").getString("status");
-          switch (status)
-          {
-            case "passed":
-              status = "PASS";
-              break;
-            case "failed":
-              status = "FAIL";
-              break;
-          }
-          JSONArray jsonArray = jsonObject.getJSONArray("elements").getJSONObject(k).getJSONArray("tags");
-          for (int j = 0; j < jsonArray.length(); j++) {JSONObject obj = jsonArray.getJSONObject(j);
-            if (obj.getString("name").toLowerCase().contains("vmm")) {JSONObject ob = new JSONObject();
-              ob.put("TestName", name);
-              ob.put("JiraKey", obj.getString("name").replace('@', ' ').trim());
-              ob.put("Result", status);result.put(ob);
-            }
-          }
-        }
-      }
-      BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getProperty("user.dir") + File.separator + "target" + File.separator + "Cucumber_custom_report.json"));
-      bufferedWriter.write(result.toString());
-      bufferedWriter.close();
-    }
-    catch(Exception e) {
-      e.printStackTrace();
-    }
-  }
-
-  */
- /*  Validate GetFleetByDevice Response */
-  public void validateGetFlletByDeviceResponse(Response response, Map<String, String> testData, String status ) {
-
-    String resString = response.then().extract().asPrettyString();
-    JsonPath js = new JsonPath(resString);
-
-    if(status.equalsIgnoreCase("Assigned")) {
-      validateField("ID", testData.get("ID"), js.getString(ResponseTags.GetFleetByDevice_ID));
-      validateField("Feet ID", testData.get("FLEETID"), js.getString(ResponseTags.GetFleetByDevice_FLEETID));
-      validateField("Device Type", testData.get("DEVICETYPE"), js.getString(ResponseTags.GetFleetByDevice_DEVICETYPE));
-    }
-    else if (status.equalsIgnoreCase("Unassigned")) {
-
-      if(resString.contains(testData.get("DEVICESTATUS"))){
-        reportPass("Device Status",testData.get("DEVICESTATUS"), resString);
-      }
-
-    }
-
-
-  }
-
-  /*  Validate ActivateLicenses Response */
-  public void validateActivateLicensesResponse(Response response, Map<String, String> testData, String status ) {
-
-    String resString = response.then().extract().asPrettyString();
-    JsonPath js = new JsonPath(resString);
-    validateField("License Id", "["+testData.get("LICENSEIDS")+"]", js.getString(ResponseTags.ActivateLicense_LICENSEID));
-    validateField("Status", "["+testData.get("STATUS")+"]", js.getString(ResponseTags.ActivateLicense_STATUS));
-    validateField("Status Comment", "["+testData.get("STATUSCOMMENT")+"]", js.getString(ResponseTags.ActivateLicense_STATUSCOMMENT));
-
-
-  }
-
-  /*  Validate DeactivateLicenses Response */
-  public void validateDeactivateLicensesResponse(Response response, Map<String, String> testData, String status ) {
-
-    String resString = response.then().extract().asPrettyString();
-    JsonPath js = new JsonPath(resString);
-    validateField("License Id", "["+testData.get("LICENSEIDS")+"]", js.getString(ResponseTags.ActivateLicense_LICENSEID));
-    validateField("Status", "["+testData.get("STATUS")+"]", js.getString(ResponseTags.ActivateLicense_STATUS));
-    validateField("Status Comment", "["+testData.get("STATUSCOMMENT")+"]", js.getString(ResponseTags.ActivateLicense_STATUSCOMMENT));
-
-
-  }
-
-
-  public void validateGetDeviceConfigResponse(Response response, Map<String, String> testData) {
-
-    String resString = response.then().extract().asPrettyString();
-    JsonPath js = new JsonPath(resString);
-    validateField("Data", testData.get("Data"), js.getString(ResponseTags.GetDeviceConfig_DATA));
-
-
-
-  }
-
-  public void validateAvailableLicensesResponse(Response response, Map<String, String> testData, String status ) {
-
-    String resString = response.then().extract().asPrettyString();
-    JsonPath js = new JsonPath(resString);
-
-    if(status.equalsIgnoreCase("Available")) {
-      validateContent("ID", testData.get("ID"), js.getString(ResponseTags.GetAvailableLicense_ID));
-      validateContent("Fleet", testData.get("FLEET"), js.getString(ResponseTags.GetAvailableLicense_FLEET));
-      validateContent("Expiry Date", testData.get("EXPIRYDATE"), js.getString(ResponseTags.GetAvailableLicense__EXPIRYDATE));
-      validateContent("License Status", testData.get("LICENSESTATUS"), js.getString(ResponseTags.GetAvailableLicense_LICENSESTATUS));
-      validateContent("Slot Type", testData.get("SLOTTYPE"), js.getString(ResponseTags.GetAvailableLicense_SLOTTYPE));
-      validateContent("Slots", testData.get("SLOTS"), js.getString(ResponseTags.GetAvailableLicense_SLOTS));
-      validateContent("Slot Used", testData.get("SLOTUSED"), js.getString(ResponseTags.GetAvailableLicense_SLOTUSED));
-    }
-    else if (status.equalsIgnoreCase("Invalid")) {
-      validateField("Error", testData.get("Error"), js.getString(ResponseTags.GetAvailableLicense_ERROR_LM));
-      //validateField("Path", testData.get("Path"), js.getString(ResponseTags.GetAvailableLicense_PATH));
-
-
-    }
-
-    else if (status.equalsIgnoreCase("Unavailable")) {
-      System.out.println(response.asPrettyString());
-    }
-
-  }
-
-  public void validateGetSoftwareTemplateAndSettingResponse(Response response, Map<String, String> testData, String status ) {
-
-    String resString = response.then().extract().asPrettyString();
-    JsonPath js = new JsonPath(resString);
-
-    if(status.equalsIgnoreCase("Assigned")) {
-      validateField("Template ID", testData.get("TEMPLATEID"), js.getString(ResponseTags.getSoftwareTemplateAndSetting_TEMPLATEID));
-      validateField("Template Name", testData.get("TEMPLATENAME"), js.getString	(ResponseTags.getSoftwareTemplateAndSetting_TEMPLATENAME));
-      validateField("Template Json: Name", testData.get("TEMPLATEJSON"), js.getString(ResponseTags.getSoftwareTemplateAndSetting_TEMPLATEJSON));
-      validateField("SW Setting: Settings ID", testData.get("SWSETTING.SETTINGSID"), js.getString(ResponseTags.getSoftwareTemplateAndSetting_SWSETTING_SETTINGSID));
-      validateField("SW Setting: Setting Json: ID", testData.get("SWSETTING.SETTINGSJSON"), js.getString(ResponseTags.getSoftwareTemplateAndSetting_SWSETTING_SETTINGSJSON));
-      validateField("SW Setting: Settings Name", testData.get("SWSETTING.SETTINGSNAME"), js.getString(ResponseTags.getSoftwareTemplateAndSetting_SWSETTING_SETTINGSNAME));
-      validateField("SW Settng: Current Setting", testData.get("SWSETTING.CURRENTSETTING"), js.getString(ResponseTags.getSoftwareTemplateAndSetting_SWSETTING_CURRENTSETTING));
-    }
-    else if (status.equalsIgnoreCase("Unassigned")) {
-      validateField("Template ID", testData.get("TEMPLATEID"), js.getString(ResponseTags.getSoftwareTemplateAndSetting_TEMPLATEID));
-      validateField("Template Name", testData.get("TEMPLATENAME"), js.getString	(ResponseTags.getSoftwareTemplateAndSetting_TEMPLATENAME));
-      validateField("Template Json: Name", testData.get("TEMPLATEJSON"), js.getString(ResponseTags.getSoftwareTemplateAndSetting_TEMPLATEJSON));
-      validateNullValues("SW Setting: Settings ID", js.getString(ResponseTags.getSoftwareTemplateAndSetting_SWSETTING_SETTINGSID));
-      validateNullValues("SW Setting: Setting Json: ID", js.getString(ResponseTags.getSoftwareTemplateAndSetting_SWSETTING_SETTINGSJSON));
-      validateNullValues("SW Setting: Settings Name", js.getString(ResponseTags.getSoftwareTemplateAndSetting_SWSETTING_SETTINGSNAME));
-      validateField("SW Settng: Current Setting", testData.get("SWSETTING.CURRENTSETTING"), js.getString(ResponseTags.getSoftwareTemplateAndSetting_SWSETTING_CURRENTSETTING));
-
-
-    }
-    else if (status.equalsIgnoreCase("notexists")) {
-      validateField("Error", testData.get("Error"), js.getString(ResponseTags.GetAvailableLicense_ERROR));
-
-
-    }
-
-
-
-  }
-   /* Validate GetAssignedLicense Response*/
-  public void validateGetAssignedLicenseResponse(Response response, Map<String, String> testData, String status ) {
-
-    String resString = response.then().extract().asPrettyString();
-    JsonPath js = new JsonPath(resString);
-
-    if(status.equalsIgnoreCase("Assigned")) {
-      validateField("ID", testData.get("ID"), js.getString(ResponseTags.GetAssignedLicense_ID));
-      validateField("FLeet", testData.get("FLEET"), js.getString(ResponseTags.GetAssignedLicense_FLEET));
-      validateField("EXPIRY DATE", testData.get("EXPIRYDATE"), js.getString(ResponseTags.GetAssignedLicense__EXPIRYDATE));
-      validateField("lICENSE STATUS", testData.get("LICENSESTATUS"), js.getString(ResponseTags.GetAssignedLicense_LICENSESTATUS));
-      validateField("SLOT TYPE", testData.get("SLOTTYPE"), js.getString(ResponseTags.GetAssignedLicense_SLOTTYPE));
-
-    }
-    else if (status.equalsIgnoreCase("Invalid")) {
-      validateField("Error", testData.get("Error"), js.getString(ResponseTags.GetAvailableLicense_ERROR_LM));
-
-
-    }
-  }
-
-   /* Validate DeviceTemplateAndSettings Response*/
-  public void validateGetDeviceTemplateAndSettingsResponse(Response response, Map<String, String> testData, String status ) {
-
-    String resString = response.then().extract().asPrettyString();
-    JsonPath js = new JsonPath(resString);
-
-    if(status.equalsIgnoreCase("Assigned")) {
-      validateField("Template ID", testData.get("Template_ID"), js.getString(ResponseTags.GetDeviceTemplateAndSettings_TEMPLATEID));
-      validateField("Template Name", testData.get("Template_Name"), js.getString(ResponseTags.GetDeviceTemplateAndSettings_TEMPLATENAME));
-      validateField("Template JSON", testData.get("TemplateJson"), js.getString(ResponseTags.GetDeviceTemplateAndSettings_TEMPLATEJSON));
-      //validateField("Device Settings", testData.get("DeviceSettings"), js.getString(ResponseTags.GetDeviceTemplateAndSettings_DEVICESETTINGS));
-    }
-    else if (status.equalsIgnoreCase("Invalid"))
-    {
-
-      validateField("Error",testData.get("Error"), js.getString(ResponseTags.GetDeviceTemplateAndSettings_ERROR_LM));
-      //validateField("Error Path",testData.get("Path"), js.getString(ResponseTags.GetDeviceTemplateAndSettings_ERROR_PATH));
-
-    }
-    else if (status.equalsIgnoreCase("UnassignedDevice")) {
-      validateNullValues("Template ID", js.getString(ResponseTags.GetDeviceTemplateAndSettings_TEMPLATEID));
-      validateNullValues("Template Name", js.getString(ResponseTags.GetDeviceTemplateAndSettings_TEMPLATENAME));
-      validateNullValues("Device Settings", js.getString(ResponseTags.GetDeviceTemplateAndSettings_DEVICESETTINGS));
-
-    }
-  }
 }
 
 
